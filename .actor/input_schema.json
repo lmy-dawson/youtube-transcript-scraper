@@ -1,0 +1,139 @@
+{
+  "title": "YouTube Transcript Scraper",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "videoUrls": {
+      "title": "YouTube URLs",
+      "type": "array",
+      "description": "Video, channel, playlist or Shorts URLs. Paste a channel and it takes every video on it; paste a playlist and it takes the whole list. Bare video IDs and @handles work too.",
+      "editor": "stringList",
+      "prefill": [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      ],
+      "default": [],
+      "placeholderValue": "https://www.youtube.com/@channel"
+    },
+    "searchQueries": {
+      "title": "Search terms",
+      "type": "array",
+      "description": "Search YouTube and transcribe the top results for each term. Useful when you want the conversation about a topic rather than a specific channel.",
+      "editor": "stringList",
+      "default": [],
+      "placeholderValue": "how to fix a leaking tap"
+    },
+    "maxVideosPerSource": {
+      "title": "Max videos per channel, playlist or search",
+      "type": "integer",
+      "description": "Caps how many videos are taken from each channel, playlist or search term. Individual video URLs are never capped.",
+      "default": 50,
+      "minimum": 1,
+      "maximum": 5000,
+      "unit": "videos"
+    },
+    "languages": {
+      "title": "Preferred caption languages",
+      "type": "array",
+      "description": "Two-letter language codes in order of preference, for example en, es, fr. Regional variants match too, so en also accepts en-US and en-GB.",
+      "editor": "stringList",
+      "default": [
+        "en"
+      ]
+    },
+    "fallbackToAnyLanguage": {
+      "title": "Fall back to any available language",
+      "type": "boolean",
+      "description": "If none of your preferred languages exist, use whatever captions the video does have. Turn this off to skip videos that are not in your languages.",
+      "default": true
+    },
+    "preferManualCaptions": {
+      "title": "Prefer human-written captions",
+      "type": "boolean",
+      "description": "When a video has both human-written and auto-generated captions, take the human ones. They are noticeably more accurate, especially with names and technical terms.",
+      "default": true
+    },
+    "translateTo": {
+      "title": "Translate transcript to",
+      "type": "string",
+      "description": "Two-letter code to have YouTube translate the transcript, for example es or de. Leave empty for the original language. If translation is unavailable the original is returned rather than nothing.",
+      "editor": "textfield",
+      "default": ""
+    },
+    "includeVideoMetadata": {
+      "title": "Include video details",
+      "type": "boolean",
+      "description": "Add title, channel, description, duration, view count, keywords and thumbnail to each row.",
+      "default": true
+    },
+    "includeTimestampedSegments": {
+      "title": "Include timestamped segments",
+      "type": "boolean",
+      "description": "Add the segments array: every caption line with its start time, end time and duration in seconds. Turn off for a smaller dataset when you only need the text.",
+      "default": true
+    },
+    "includeSrt": {
+      "title": "Include SRT subtitles",
+      "type": "boolean",
+      "description": "Add a ready-to-save .srt subtitle file as a string field.",
+      "default": false
+    },
+    "includeVtt": {
+      "title": "Include WebVTT subtitles",
+      "type": "boolean",
+      "description": "Add a ready-to-save .vtt subtitle file as a string field, for HTML5 video players.",
+      "default": false
+    },
+    "chunkSize": {
+      "title": "Split transcript into chunks of (characters)",
+      "type": "integer",
+      "description": "For RAG and embeddings. Splits the transcript into passages of roughly this many characters, each keeping its real start and end time so answers can cite the moment in the video. Set 0 to skip chunking. 1000 is a sensible default for most embedding models.",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 20000,
+      "unit": "characters"
+    },
+    "chunkOverlap": {
+      "title": "Chunk overlap (characters)",
+      "type": "integer",
+      "description": "How much text each chunk repeats from the one before it, so a sentence split across the boundary still makes sense in both. Ignored when chunking is off.",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 5000,
+      "unit": "characters"
+    },
+    "includeVideosWithoutTranscript": {
+      "title": "List videos with no transcript",
+      "type": "boolean",
+      "description": "Save a list of every video that had no captions or could not be read, with the reason for each, to the run's key-value store under VIDEOS_WITHOUT_TRANSCRIPT. They are never written to the dataset, so they are never billed. Useful for auditing a whole channel.",
+      "default": false
+    },
+    "concurrency": {
+      "title": "Videos in parallel",
+      "type": "integer",
+      "description": "How many videos to fetch at once. 5 is a good balance. Raising it speeds up large runs but YouTube starts rate-limiting, which slows things down again.",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 15
+    },
+    "blockRetries": {
+      "title": "Retries when blocked",
+      "type": "integer",
+      "description": "How many different proxy addresses to try before giving up on a video. Each retry is one extra request; you are never charged for a video that stays blocked.",
+      "default": 4,
+      "minimum": 1,
+      "maximum": 8
+    },
+    "proxyConfiguration": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "description": "YouTube refuses its player API from cloud datacenters, so a proxy is required when running on Apify. Residential is the default because it is the only setting that returned every transcript in testing. Datacenter proxies are cheaper and got about 96%, if you prefer that trade.",
+      "editor": "proxy",
+      "default": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": [
+          "RESIDENTIAL"
+        ]
+      }
+    }
+  }
+}

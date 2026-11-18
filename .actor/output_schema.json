@@ -1,0 +1,25 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "YouTube transcript output",
+  "description": "One row per video, written to the default dataset.",
+  "properties": {
+    "transcripts": {
+      "type": "string",
+      "title": "Transcripts (JSON)",
+      "description": "Every transcript in full, including timestamped segments and any formats you enabled.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "transcriptsCsv": {
+      "type": "string",
+      "title": "Transcripts (CSV)",
+      "description": "One row per video for a spreadsheet. Leaves out the nested segment and chunk arrays, which a CSV would expand into thousands of columns.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?format=csv&view=export"
+    },
+    "datasetView": {
+      "type": "string",
+      "title": "Browse results",
+      "description": "Open the results table in Apify Console.",
+      "template": "{{links.consoleDatasetUrl}}"
+    }
+  }
+}

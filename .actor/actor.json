@@ -1,0 +1,18 @@
+{
+  "actorSpecification": 1,
+  "name": "youtube-transcript-scraper",
+  "title": "YouTube Transcript Scraper - Subtitles, Captions & Timestamps",
+  "description": "Extract YouTube transcripts and subtitles from any video, channel, playlist or search. Plain text, timestamps, SRT, VTT and RAG-ready chunks with real timings. No API key, no cookies, no browser.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "python-start"
+  },
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "readme": "../README.md",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json"
+}
