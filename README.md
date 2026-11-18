@@ -1,4 +1,6 @@
-> **Live tool:** [apify.com/teamsasuke/youtube-transcript-scraper](https://apify.com/teamsasuke/youtube-transcript-scraper) — published on the Apify Store with pay-per-result pricing.
+[![tests](https://github.com/lmy-dawson/youtube-transcript-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/lmy-dawson/youtube-transcript-scraper/actions/workflows/tests.yml)
+
+> **Live tool:** [apify.com/teamsasuke/youtube-transcript-scraper](https://apify.com/teamsasuke/youtube-transcript-scraper) — running in production on the Apify Store.
 > Source code by [Benjamin-David Dawson](https://github.com/lmy-dawson). The rest of this README is the user guide shown on the Store.
 
 <details>
@@ -11,6 +13,8 @@
 - `src/session.py` — one HTTP client per worker, each pinned to its own proxy session and rotated when YouTube challenges it.
 - `src/transcript.py` — downloads captions and renders text, timestamped segments, SRT, WebVTT and overlapping embedding chunks.
 - The player call and the caption download are retried as one unit: an empty caption body means the address is blocked, not that the video has no captions.
+
+**Run the tests:** `pip install -r requirements.txt pytest && pytest`
 
 **Run locally**
 
